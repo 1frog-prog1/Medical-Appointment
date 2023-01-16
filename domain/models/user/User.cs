@@ -1,10 +1,10 @@
 ﻿namespace domain;
 public class User
 {
-    int user_id;
-    string login;
-    string password;
-    string phone;
-    string fio;
-    int role_id;
+    public int user_id;
+    public string login;
+    public string password;
+    public string phone;
+    public string fio;
+    public int role_id;
 }

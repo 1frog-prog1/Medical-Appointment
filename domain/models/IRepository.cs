@@ -4,13 +4,13 @@ namespace domain.models
 
         IEnumerable<T> Get();
 
-        void Create(T item);
+        void create(T item);
 
-        void Update(T item);
+        void update(T item);
 
-        void Delete(int id);
+        void delete(int id);
 
-        void Save();
+        void save();
 
     }
 }

@@ -24,11 +24,11 @@ namespace domain.models
             return new Result<T>(default(T), false, message);
         }
 
-        public Result Ok() {
+        public static Result Ok() {
             return new Result(true, string.Empty);
         }
 
-        public Result<T> Ok<T>(T value) {
+        public static Result<T> Ok<T>(T value) {
             return new models.Result<T>(value, true, string.Empty);
         }
 
