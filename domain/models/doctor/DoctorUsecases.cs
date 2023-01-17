@@ -1,5 +1,7 @@
 using System.Linq;
 
+using domain.models.specialisation;
+
 namespace domain.models.doctor
 {
     public class DoctorUsecases
@@ -44,6 +46,7 @@ namespace domain.models.doctor
         }
 
         public Result<List<Doctor>> getDoctorsBySpecialisation(int spec_id) {
+            ISpecialisationRepository spec_repository;
             if (spec_id <= 0)
                 return Result.Fail<List<Doctor>>("Incorrect specialisation ID");
             // сделать проверку на существование этой специализации
