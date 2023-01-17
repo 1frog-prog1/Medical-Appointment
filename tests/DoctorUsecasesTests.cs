@@ -17,7 +17,7 @@ namespace tests
         }
 
         [Fact]
-        public void createUserEmptyFio_Fail()
+        public void createDoctorEmptyFio_Fail()
         {
             // Given
             var doctor = new Doctor("", 666);
@@ -31,7 +31,7 @@ namespace tests
         }
 
         [Fact]
-        public void createUserCorrectFio_Ok()
+        public void createDoctorCorrectFio_Ok()
         {
             // Given
             var doctor = new Doctor("something", 666);
@@ -45,7 +45,7 @@ namespace tests
         }
 
         [Fact]
-        public void deleteUserNegativeId_Fail()
+        public void deleteDoctorNegativeId_Fail()
         {
             // Given
             var doctor_id = -1;
@@ -55,11 +55,11 @@ namespace tests
         
             // Then
             Assert.False(res.Success);
-            Assert.Equal(res.Error, "Incorrect format of ID");
+            Assert.Equal(res.Error, "Incorrect ID");
         }
 
         [Fact]
-        public void deleteUserCorrectId_Ok()
+        public void deleteDoctorCorrectId_Ok()
         {
             // Given
             var doctor_id = 1;
@@ -72,5 +72,46 @@ namespace tests
             Assert.Equal(res.Error, "");
         }
 
+        [Fact]
+        public void getAllDoctors_Ok()
+        {
+            // Given
+            
+            // When
+            var res = usecases.getAllDoctors();
+        
+            // Then
+            Assert.True(res.Success);
+            Assert.Equal(res.Error, "");
+        }
+
+        [Fact]
+        public void getDoctorByIncorrectId_Fail()
+        {
+            // Given
+            var doctor_id = -2;
+            
+            // When
+            var res = usecases.getDoctorById(doctor_id);
+        
+            // Then
+            Assert.False(res.Success);
+            Assert.Equal(res.Error, "Incorrect ID");
+        }
+
+        [Fact]
+        public void getDoctorByNonExistingId_Fail()
+        {
+            // Given
+            var doctor_id = 2;
+            repository.Setup(rep => rep.isExist(doctor_id)).Returns(false);
+            
+            // When
+            var res = usecases.getDoctorById(doctor_id);
+        
+            // Then
+            Assert.False(res.Success);
+            Assert.Equal(res.Error, "Such doctor doesn't exist");
+        }
     }
 }
