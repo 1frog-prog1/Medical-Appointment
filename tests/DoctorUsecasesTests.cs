@@ -17,7 +17,7 @@ namespace tests
         }
 
         [Fact]
-        public void createUserIncorrectData_Fail()
+        public void createUserEmptyFio_Fail()
         {
             // Given
             var doctor = new Doctor("", 666);
@@ -31,7 +31,7 @@ namespace tests
         }
 
         [Fact]
-        public void createUserCorrectData_Ok()
+        public void createUserCorrectFio_Ok()
         {
             // Given
             var doctor = new Doctor("something", 666);
@@ -43,5 +43,34 @@ namespace tests
             Assert.True(res.Success);
             Assert.Equal(res.Error, "");
         }
+
+        [Fact]
+        public void deleteUserNegativeId_Fail()
+        {
+            // Given
+            var doctor_id = -1;
+        
+            // When
+            var res = usecases.deleteDoctor(doctor_id);
+        
+            // Then
+            Assert.False(res.Success);
+            Assert.Equal(res.Error, "Incorrect format of ID");
+        }
+
+        [Fact]
+        public void deleteUserCorrectId_Ok()
+        {
+            // Given
+            var doctor_id = 1;
+        
+            // When
+            var res = usecases.deleteDoctor(doctor_id);
+        
+            // Then
+            Assert.True(res.Success);
+            Assert.Equal(res.Error, "");
+        }
+
     }
 }
