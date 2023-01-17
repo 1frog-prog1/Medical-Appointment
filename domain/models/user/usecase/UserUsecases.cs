@@ -8,10 +8,10 @@ namespace domain.models.user.usecase
     public class UserUsecases
     {
 
-        private readonly IUserRepository UserRepository;
+        private readonly IUserRepository repository;
 
         public UserUsecases(IUserRepository userRepository) {
-            UserRepository = userRepository;
+            repository = userRepository;
         }
 
         public Result<User> signUpUser(User user) {
@@ -22,10 +22,10 @@ namespace domain.models.user.usecase
             string.IsNullOrEmpty(user.fio)) 
                 return Result.Fail<User>("There must be no empty fields");
 
-            if (UserRepository.isExist(user.login))
+            if (repository.isExist(user.login))
                 return Result.Fail<User>("This login already exists");
             
-            UserRepository.create(user);
+            repository.create(user);
             return Result.Ok<User>(user);
         }
 
@@ -34,9 +34,9 @@ namespace domain.models.user.usecase
             if (string.IsNullOrEmpty(data.login) || string.IsNullOrEmpty(data.password))
                 return Result.Fail<User>("There must be no empty fields");
 
-            if (!UserRepository.checkAccount(data))
+            if (!repository.checkAccount(data))
                 return Result.Fail<User>("Error. Check your login or password");
-            return Result.Ok<User>(UserRepository.findUserByLogin(data.login));
+            return Result.Ok<User>(repository.findUserByLogin(data.login));
         }
 
     }

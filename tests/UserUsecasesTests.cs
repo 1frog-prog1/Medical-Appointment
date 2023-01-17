@@ -12,8 +12,8 @@ namespace tests;
 
 public class UserUsecasesTests
 {
-    private readonly UserUsecases userUsecases;
-    private readonly Mock<IUserRepository> userRepository;
+    private readonly UserUsecases usecases;
+    private readonly Mock<IUserRepository> repository;
 
     private User createUser(string login) {
         return new User(login, "1111", "88005553535", 
@@ -21,8 +21,8 @@ public class UserUsecasesTests
     }
 
     public UserUsecasesTests() {
-        userRepository = new Mock<IUserRepository>();
-        userUsecases = new UserUsecases(userRepository.Object);
+        repository = new Mock<IUserRepository>();
+        usecases = new UserUsecases(repository.Object);
     }
 
     [Fact]
@@ -32,7 +32,7 @@ public class UserUsecasesTests
         var empty_data = new loginData("", "something");
         
         // act
-        var res = userUsecases.signInUser(empty_data);
+        var res = usecases.signInUser(empty_data);
 
         //assert
         Assert.False(res.Success);
@@ -46,7 +46,7 @@ public class UserUsecasesTests
         var null_data = new loginData(null, null);
         
         // act
-        var res = userUsecases.signInUser(null_data);
+        var res = usecases.signInUser(null_data);
 
         //assert
         Assert.False(res.Success);
@@ -58,10 +58,10 @@ public class UserUsecasesTests
     {
         // arrange
         var incorrect_data = new loginData("user", "incorrect password");
-        userRepository.Setup(rep=>rep.checkAccount(incorrect_data)).Returns(false);
+        repository.Setup(rep=>rep.checkAccount(incorrect_data)).Returns(false);
         
         // act
-        var res = userUsecases.signInUser(incorrect_data);
+        var res = usecases.signInUser(incorrect_data);
         
         // assert
         Assert.False(res.Success);
@@ -74,10 +74,10 @@ public class UserUsecasesTests
     {
         // arrange
         var incorrect_data = new loginData("user", "incorrect password");
-        userRepository.Setup(rep=>rep.checkAccount(incorrect_data)).Returns(true);
+        repository.Setup(rep=>rep.checkAccount(incorrect_data)).Returns(true);
         
         // act
-        var res = userUsecases.signInUser(incorrect_data);
+        var res = usecases.signInUser(incorrect_data);
         
         // assert
         Assert.True(res.Success);
@@ -91,7 +91,7 @@ public class UserUsecasesTests
         var empty_user = createUser("");
         
         // act
-        var res = userUsecases.signUpUser(empty_user);
+        var res = usecases.signUpUser(empty_user);
         
         // assert
         Assert.False(res.Success);
@@ -103,10 +103,10 @@ public class UserUsecasesTests
     {
         // arrange
         var empty_user = createUser("abcabc");
-        userRepository.Setup(rep => rep.isExist(empty_user.login)).Returns(true);
+        repository.Setup(rep => rep.isExist(empty_user.login)).Returns(true);
         
         // act
-        var res = userUsecases.signUpUser(empty_user);
+        var res = usecases.signUpUser(empty_user);
         
         // assert
         Assert.False(res.Success);
@@ -118,10 +118,10 @@ public class UserUsecasesTests
     {
         // arrange
         var empty_user = createUser("abcabc");
-        userRepository.Setup(rep => rep.isExist(empty_user.login)).Returns(false);
+        repository.Setup(rep => rep.isExist(empty_user.login)).Returns(false);
         
         // act
-        var res = userUsecases.signUpUser(empty_user);
+        var res = usecases.signUpUser(empty_user);
         
         // assert
         Assert.True(res.Success);
