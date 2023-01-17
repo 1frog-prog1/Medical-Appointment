@@ -26,7 +26,7 @@ public class UserUsecasesTests
     }
 
     [Fact]
-    public void signInUserEmptyFieldTest()
+    public void signInUserEmptyFieldTest_Fail()
     {
         // arrange
         var empty_data = new loginData("", "something");
@@ -40,7 +40,7 @@ public class UserUsecasesTests
     }
 
     [Fact]
-    public void signInUserNullFieldTest()
+    public void signInUserNullFieldTest_Fail()
     {
         // arrange
         var null_data = new loginData(null, null);
@@ -54,7 +54,7 @@ public class UserUsecasesTests
     }
 
     [Fact]
-    public void signInUserIncorrectLoginDataTest()
+    public void signInUserIncorrectLoginDataTest_Fail()
     {
         // arrange
         var incorrect_data = new loginData("user", "incorrect password");
@@ -70,7 +70,7 @@ public class UserUsecasesTests
     }
 
     [Fact]
-    public void signInUserCorrectLoginDataTest()
+    public void signInUserCorrectLoginDataTest_Ok()
     {
         // arrange
         var incorrect_data = new loginData("user", "incorrect password");
@@ -85,7 +85,7 @@ public class UserUsecasesTests
     }
 
     [Fact]
-    public void signInUserEmptyFielsTest()
+    public void signInUserEmptyFielsTest_Fail()
     {
         // arrange
         var empty_user = createUser("");
@@ -99,7 +99,7 @@ public class UserUsecasesTests
     }
 
      [Fact]
-    public void signInLoginAlreadyTakenTest()
+    public void signInLoginAlreadyTakenTest_Fail()
     {
         // arrange
         var empty_user = createUser("abcabc");
@@ -114,7 +114,7 @@ public class UserUsecasesTests
     }
 
     [Fact]
-    public void signInOkTest()
+    public void signInOkDataTest_Ok()
     {
         // arrange
         var empty_user = createUser("abcabc");
