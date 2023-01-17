@@ -1,4 +1,4 @@
-namespace domain.models.user
+namespace domain.models.user.iuserepository
 {
 
     using domain.models;
@@ -10,8 +10,6 @@ namespace domain.models.user
          bool checkAccount(loginData data);
 
          User findUserByLogin(string login);
-
-
 
     }
 }

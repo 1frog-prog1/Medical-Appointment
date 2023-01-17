@@ -1,6 +1,6 @@
 namespace domain.models
 {
-    enum Role {
+    public enum Role {
         Patient,
         Admin
     }

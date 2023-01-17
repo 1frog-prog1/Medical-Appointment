@@ -1,15 +1,16 @@
-namespace domain.usecase
-{
-    using domain.models.user.model;
-    using domain.models.user;
-    using domain.models;
+using domain.models.user.model;
+using domain.models.user.iuserepository;
+using domain.models;
 
+
+namespace domain.models.user.usecase
+{
     public class UserUsecases
     {
 
         private readonly IUserRepository UserRepository;
 
-        UserUsecases(IUserRepository userRepository) {
+        public UserUsecases(IUserRepository userRepository) {
             UserRepository = userRepository;
         }
 
@@ -19,7 +20,7 @@ namespace domain.usecase
             string.IsNullOrEmpty(user.password) ||
             string.IsNullOrEmpty(user.phone) ||
             string.IsNullOrEmpty(user.fio)) 
-                return Result.Fail<User>("There must be no empty fields")
+                return Result.Fail<User>("There must be no empty fields");
 
             if (UserRepository.isExist(user.login))
                 return Result.Fail<User>("This login already exists");

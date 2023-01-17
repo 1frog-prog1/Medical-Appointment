@@ -4,5 +4,10 @@ namespace domain.models.user.model
     {
         public string login;
         public string password;
+
+        public loginData(string login, string password) {
+            this.login = login;
+            this.password = password;
+        }
     }
 }
