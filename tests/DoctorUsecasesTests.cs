@@ -113,5 +113,49 @@ namespace tests
             Assert.False(res.Success);
             Assert.Equal(res.Error, "Such doctor doesn't exist");
         }
+
+        [Fact]
+        public void getDoctorByCorrectId_Ok()
+        {
+            // Given
+            var doctor_id = 2;
+            repository.Setup(rep => rep.isExist(doctor_id)).Returns(true);
+            
+            // When
+            var res = usecases.getDoctorById(doctor_id);
+        
+            // Then
+            Assert.True(res.Success);
+            Assert.Equal(res.Error, "");
+        }
+
+        [Fact]
+        public void getDoctorsByNegativeSpecId_Fail()
+        {
+            // Given
+            var spec_id = -1;
+            
+            // When
+            var res = usecases.getDoctorsBySpecialisation(spec_id);
+        
+            // Then
+            Assert.False(res.Success);
+            Assert.Equal(res.Error, "Incorrect specialisation ID");
+        }
+
+[       Fact]
+        public void getDoctorsByCorrectSpecId_Ok()
+        {
+            // Given
+            var spec_id = 1;
+            
+            // When
+            var res = usecases.getDoctorsBySpecialisation(spec_id);
+        
+            // Then
+            Assert.True(res.Success);
+            Assert.Equal(res.Error, "");
+        }
+        
     }
 }

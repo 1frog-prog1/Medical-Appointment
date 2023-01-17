@@ -42,5 +42,15 @@ namespace domain.models.doctor
             var doctor = repository.findDoctorByID(doctor_id);
             return Result.Ok<Doctor>(doctor);
         }
+
+        public Result<List<Doctor>> getDoctorsBySpecialisation(int spec_id) {
+            if (spec_id <= 0)
+                return Result.Fail<List<Doctor>>("Incorrect specialisation ID");
+            // сделать проверку на существование этой специализации
+            var doctor_container = repository.findDoctorListBySpecialisation(spec_id);
+            var doctor_list = doctor_container.ToList<Doctor>();
+            return Result.Ok<List<Doctor>>(doctor_list);
+        }
+
     }
 }
