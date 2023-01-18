@@ -7,15 +7,19 @@ namespace domain.models.doctor
     public class DoctorUsecases
     {
         private readonly IDoctorRepository repository;
+        private readonly ISpecialisationRepository spec_repository;
 
-        public DoctorUsecases(IDoctorRepository repository) {
+        public DoctorUsecases(IDoctorRepository repository,
+                            ISpecialisationRepository spec_repository) {
             this.repository = repository;
+            this.spec_repository = spec_repository;
         }
 
         public Result<Doctor> createDoctor(Doctor doctor) {
-            if (string.IsNullOrEmpty(doctor.fio)) // todo: add check that specialisation really exists after
-                return Result.Fail<Doctor>("Incorrect format of data");
-            
+            if (string.IsNullOrEmpty(doctor.fio))
+                return Result.Fail<Doctor>("Empty field of FIO");
+            if (!spec_repository.isExist(doctor.specialisation_id))
+                return Result.Fail<Doctor>("Such specialisation doesn't exist");
             repository.create(doctor);
             return Result.Ok<Doctor>(doctor);
         }
@@ -46,10 +50,8 @@ namespace domain.models.doctor
         }
 
         public Result<List<Doctor>> getDoctorsBySpecialisation(int spec_id) {
-            ISpecialisationRepository spec_repository;
-            if (spec_id <= 0)
+            if (spec_id <= 0 || !spec_repository.isExist(spec_id))
                 return Result.Fail<List<Doctor>>("Incorrect specialisation ID");
-            // сделать проверку на существование этой специализации
             var doctor_container = repository.findDoctorListBySpecialisation(spec_id);
             var doctor_list = doctor_container.ToList<Doctor>();
             return Result.Ok<List<Doctor>>(doctor_list);

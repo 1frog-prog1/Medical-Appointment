@@ -1,8 +1,10 @@
 using Moq;
 using Xunit;
+using System.Collections.Generic;
 
 using domain.models.doctor;
 using domain.models;
+using domain.models.specialisation;
 
 namespace tests
 {
@@ -10,10 +12,12 @@ namespace tests
     {
         private readonly DoctorUsecases usecases;
         private readonly Mock<IDoctorRepository> repository;
+        private readonly Mock<ISpecialisationRepository> spec_repository;
 
         public DoctorUsecasesTests() {
             repository = new Mock<IDoctorRepository>();
-            usecases = new DoctorUsecases(repository.Object);
+            spec_repository = new Mock<ISpecialisationRepository>();
+            usecases = new DoctorUsecases(repository.Object, spec_repository.Object);
         }
 
         [Fact]
@@ -21,13 +25,14 @@ namespace tests
         {
             // Given
             var doctor = new Doctor("", 666);
+            spec_repository.Setup(rep => rep.isExist(666)).Returns(true);
         
             // When
             var res = usecases.createDoctor(doctor);
         
             // Then
             Assert.False(res.Success);
-            Assert.Equal(res.Error, "Incorrect format of data");
+            Assert.Equal(res.Error, "Empty field of FIO");
         }
 
         [Fact]
@@ -35,6 +40,7 @@ namespace tests
         {
             // Given
             var doctor = new Doctor("something", 666);
+            spec_repository.Setup(rep => rep.isExist(666)).Returns(true);
         
             // When
             var res = usecases.createDoctor(doctor);
@@ -143,11 +149,30 @@ namespace tests
             Assert.Equal(res.Error, "Incorrect specialisation ID");
         }
 
-[       Fact]
+        [Fact]
+        public void getDoctorsByNonExistingSpecId_Fail()
+        {
+            // Given
+            var spec_id = 3;
+            spec_repository.Setup(rep => rep.isExist(spec_id)).Returns(false);
+            
+            // When
+            var res = usecases.getDoctorsBySpecialisation(spec_id);
+        
+            // Then
+            Assert.False(res.Success);
+            Assert.Equal(res.Error, "Incorrect specialisation ID");
+        }
+
+        [Fact]
         public void getDoctorsByCorrectSpecId_Ok()
         {
             // Given
             var spec_id = 1;
+            List<Doctor> doctor_list = new List<Doctor>() {new Doctor("Vasya", 1)};
+            spec_repository.Setup(rep => rep.isExist(spec_id)).Returns(true);
+            repository.Setup(rep => rep.findDoctorListBySpecialisation(spec_id)).Returns(doctor_list);
+
             
             // When
             var res = usecases.getDoctorsBySpecialisation(spec_id);
