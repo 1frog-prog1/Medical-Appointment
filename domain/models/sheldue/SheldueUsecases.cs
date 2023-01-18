@@ -49,5 +49,12 @@ namespace domain.models.sheldue
             appointment.patient_id = patient_id;
             return Result.Ok<Appointment>(appointment);
         }
+
+        public Result<Appointment> deleteDoctorAppointment(Appointment appointment) {
+            if (!repository.isAppointmentExist(appointment))
+                return Result.Fail<Appointment>("Such appointment doesn't exist");
+            repository.deleteDoctorAppointment(appointment);
+            return Result.Ok<Appointment>(appointment);
+        }
     }
 }
