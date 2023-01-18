@@ -25,7 +25,7 @@ namespace domain.models.sheldue
 
         public Result<Appointment> addDoctorAppointment(Appointment appointment) {
             var end_day = new DateTime(1, 1, 1, 18, 0, 0).TimeOfDay;
-            if(appointment.doctor_id <= 0)
+            if (appointment.doctor_id <= 0)
                 return Result.Fail<Appointment>("The doctor_id is negative");
 
             if (!doctorRepository.isExist(appointment.doctor_id))
@@ -39,6 +39,14 @@ namespace domain.models.sheldue
                 return Result.Fail<Appointment>("The appointment time is already busy");
 
             repository.addDoctorAppointment(appointment);
+            return Result.Ok<Appointment>(appointment);
+        }
+
+        public Result<Appointment> updatePatientInDoctorAppointment(Appointment appointment, int patient_id) {
+            if (!repository.isAppointmentExist(appointment))
+                return Result.Fail<Appointment>("Such appointment doesn't exist");
+            repository.updatePatientInDoctorAppointment(appointment, patient_id);
+            appointment.patient_id = patient_id;
             return Result.Ok<Appointment>(appointment);
         }
     }

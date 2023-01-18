@@ -7,6 +7,8 @@ namespace domain.models.sheldue
         // а все между - свободно. не лучше ли дать врачу об этом знать
         // чтоб он мог спокойно уйти.. куда там обычно врачи уходят подолгу
 
+        public bool isAppointmentExist (Appointment appointment);
+
         public bool isDoctorTimeIsBusy(int doctor_id, DateTime start);
 
          public Sheldue getDoctorSheldue(int doctor_id); 
