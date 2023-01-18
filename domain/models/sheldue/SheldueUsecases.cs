@@ -14,6 +14,9 @@ namespace domain.models.sheldue
         }
 
         public Result<Sheldue> getDoctorSheldue(int doctor_id) {
+            if (doctor_id <= 0)
+                return Result.Fail<Sheldue>("The doctor_id is negative");
+
             if (!doctorRepository.isExist(doctor_id))
                 return Result.Fail<Sheldue>("Such doctor doesn't exist");
             var doctor_sheldue = repository.getDoctorSheldue(doctor_id);
