@@ -1,11 +1,15 @@
+using domain.models.specialisation;
+
 namespace domain.models.appointment
 {
     public class AppointmentUsecases
     {
         private readonly IAppointmentRepository repository;
+        private readonly ISpecialisationRepository spec_repository;
 
-        public AppointmentUsecases(IAppointmentRepository repository) {
+        public AppointmentUsecases(IAppointmentRepository repository, ISpecialisationRepository spec_repository) {
             this.repository = repository;
+            this.spec_repository = spec_repository;
         }
 
         public Result<Appointment> saveAppointmentByDoctorId(Appointment appointment) {
@@ -23,10 +27,13 @@ namespace domain.models.appointment
             return Result.Ok<Appointment>(appointment);        
         }
 
-        public Result<Appointment> saveAppointmentByAnyDoctor(DateTime start, int spec_id, int patient_id) {
+        public Result<Appointment> saveAppointmentToAnyDoctor(DateTime start, int spec_id, int patient_id) {
             var end_day = new DateTime(1, 1, 1, 18, 0, 0).TimeOfDay;
             if (start.TimeOfDay > end_day)
                 return Result.Fail<Appointment>("Such time doesn't exist");
+
+            if (!spec_repository.isExist(spec_id))
+                return Result.Fail<Appointment>("Such specialisation doesn't exist");
 
             if (!repository.isAnyDoctorFreeAtTime(spec_id, start))
                 return Result.Fail<Appointment>("The time is already busy");
@@ -36,7 +43,13 @@ namespace domain.models.appointment
             return Result.Ok<Appointment>(appointment);        
         }
 
+        public Result<List<Appointment>> getAllFreeTimeBySpecialisationId(int spec_id) {
+            if (!spec_repository.isExist(spec_id))
+                return Result.Fail<List<Appointment>>("Such specialisation doesn't exist");
 
+            List<Appointment> free_appointments = repository.getAllFreeAppointmentsBySpecialistaionId(spec_id);
+            return Result.Ok<List<Appointment>>(free_appointments);
+        }
     }
 
 }

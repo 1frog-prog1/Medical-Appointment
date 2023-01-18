@@ -11,6 +11,6 @@ namespace domain.models.appointment
         public int saveAppointmentToAnyDoctor(int spec_id, DateTime start, int patient_id); // return doctor_id
 
         // я уже сожалею, что выбрала такие длинные имена
-        public void getAllFreeAppointmentsBySpecialistaionId(int spec_id); 
+        public List<Appointment> getAllFreeAppointmentsBySpecialistaionId(int spec_id); 
     }
 }
