@@ -142,5 +142,37 @@ namespace tests
             Assert.Equal(res.Error, "");
         }
 
+        [Fact]
+        public void updatePatientAppointmentNotExist_Fail()
+        {
+            // Given
+            Appointment app = new Appointment(new DateTime(1, 1, 1, 17, 20, 0), 1, 1);
+            int patient_id = 2;
+            repository.Setup(rep => rep.isAppointmentExist(app)).Returns(false);
+        
+            // When
+            var res = usecases.updatePatientInDoctorAppointment(app, patient_id);
+        
+            // Then
+            Assert.False(res.Success);
+            Assert.Equal(res.Error, "Such appointment doesn't exist");
+        }
+
+        [Fact]
+        public void updatePatientCorrectData_Ok()
+        {
+            // Given
+            Appointment app = new Appointment(new DateTime(1, 1, 1, 17, 20, 0), 1, 1);
+            int patient_id = 2;
+            repository.Setup(rep => rep.isAppointmentExist(app)).Returns(true);
+        
+            // When
+            var res = usecases.updatePatientInDoctorAppointment(app, patient_id);
+        
+            // Then
+            Assert.True(res.Success);
+            Assert.Equal(res.Error, "");
+        }
+
     }
 }
