@@ -9,6 +9,8 @@ namespace domain.models.sheldue
 
         public bool isAppointmentExist (Appointment appointment);
 
+        public bool isDoctorTimeIsBusy(int doctor_id, DateTime start);
+
          public Sheldue getDoctorSheldue(int doctor_id); 
 
         //для админов как я понимаю
