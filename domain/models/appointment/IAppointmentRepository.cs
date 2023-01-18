@@ -2,14 +2,13 @@ namespace domain.models.appointment
 {
     public interface IAppointmentRepository : IRepository<Appointment>
     {
-
-        bool isTimeExist(DateTime start);
-        bool isDoctorFreeAtTime(DateTime start, int doctor_id);
-         void saveAppointmentToDoctorId(Appointment appointment);
+        public bool isDoctorExist(int doctor_id);
+        public bool isDoctorFreeAtTime(DateTime start, int doctor_id);
+        public void saveAppointmentToDoctorId(Appointment appointment);
          
-         void saveAppointmentToAnyDoctor(int patient_id);
+        public void saveAppointmentToAnyDoctor(int patient_id);
 
         // я уже сожалею, что выбрала такие длинные имена
-         void getAllFreeAppointmentsBySpecialistaionId(int spec_id); 
+        public void getAllFreeAppointmentsBySpecialistaionId(int spec_id); 
     }
 }
