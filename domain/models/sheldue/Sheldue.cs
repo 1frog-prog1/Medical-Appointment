@@ -2,8 +2,10 @@ namespace domain.models
 {
     public class Sheldue
     {
-        int doctor_id;
-        TimeOnly day_start;
-        TimeOnly day_end;
+        public int doctor_id;
+        public DateTime day_start;
+        public DateTime day_end;
+
+
     }
 }

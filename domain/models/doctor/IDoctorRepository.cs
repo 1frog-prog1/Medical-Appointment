@@ -2,6 +2,8 @@ namespace domain.models.doctor
 {
     public interface IDoctorRepository : IRepository<Doctor>
     {
+
+        public bool isExist(int doctor_id);
          public Doctor findDoctorByID(int doctor_id);
 
         public IEnumerable<Doctor> findDoctorListBySpecialisation(int specialisation_id);
