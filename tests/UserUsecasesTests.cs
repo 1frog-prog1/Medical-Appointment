@@ -16,7 +16,7 @@ public class UserUsecasesTests
     private readonly Mock<IUserRepository> repository;
 
     private User createUser(string login) {
-        return new User(login, "1111", "88005553535", 
+        return new User(1, login, "1111", "88005553535", 
             "Ванька Дурачок Петрович", Role.Patient);
     }
 

@@ -2,7 +2,7 @@ namespace domain.models.specialisation
 {
     public class Specialisation
     {
-        public int specialisation_id;
+        public int Id;
         public string name;
     }
 }

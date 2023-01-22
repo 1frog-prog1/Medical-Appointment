@@ -2,7 +2,7 @@ namespace domain.models
 {
     public class Doctor
     {
-        public int doctor_id;
+        public int Id;
         public string fio;
         public int specialisation_id;
 

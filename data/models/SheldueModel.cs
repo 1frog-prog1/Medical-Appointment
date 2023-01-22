@@ -1,12 +1,10 @@
-namespace domain.models
+namespace data.models
 {
-    public class Sheldue
+    public class SheldueModel
     {
         public int Id;
         public int doctor_id;
         public DateTime day_start;
         public DateTime day_end;
-
-
     }
 }
