@@ -17,9 +17,9 @@ public class ApplicationContext : DbContext
         // Database.EnsureCreated();
 
         // something for DataTime i think
-        // AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
-        // AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
+        AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder) {

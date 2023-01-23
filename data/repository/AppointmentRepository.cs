@@ -91,6 +91,15 @@ namespace data.repository
             return app;
         }
 
+        public Appointment? getByInfo(Appointment app) {
+            return AppoinmentConverter.toDomain(
+                 db.AppointmentDb.FirstOrDefault(
+                _app => _app.doctor_id == app.doctor_id &&
+                _app.start == app.start &&
+                _app.patient_id == app.patient_id
+            ));
+        }
+
     }
 
 }

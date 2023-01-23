@@ -18,5 +18,7 @@ namespace domain.models.appointment
         // я уже сожалею, что выбрала такие длинные имена
         public List<Appointment> getAllFreeAppointmentsBySpecialistaionId(int spec_id); 
 
+        public Appointment getByInfo(Appointment app);
+
     }
 }
