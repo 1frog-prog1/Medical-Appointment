@@ -103,7 +103,7 @@ public class UserUsecasesTests
     {
         // arrange
         var empty_user = createUser("abcabc");
-        repository.Setup(rep => rep.isExist(empty_user.login)).Returns(true);
+        repository.Setup(rep => rep.isLoginExist(empty_user.login)).Returns(true);
         
         // act
         var res = usecases.signUpUser(empty_user);
@@ -118,7 +118,7 @@ public class UserUsecasesTests
     {
         // arrange
         var empty_user = createUser("abcabc");
-        repository.Setup(rep => rep.isExist(empty_user.login)).Returns(false);
+        repository.Setup(rep => rep.isLoginExist(empty_user.login)).Returns(false);
         
         // act
         var res = usecases.signUpUser(empty_user);

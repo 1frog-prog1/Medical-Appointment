@@ -1,7 +1,7 @@
 namespace domain.models
 {
     public enum Role {
-        Patient,
+        Patient = 1,
         Admin
     }
 }

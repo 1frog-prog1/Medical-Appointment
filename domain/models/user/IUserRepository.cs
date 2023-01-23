@@ -5,7 +5,9 @@ namespace domain.models.user
 {
     public interface IUserRepository : IRepository<User>
     {
-         bool isExist(string login);
+         bool isLoginExist(string login);
+
+         bool isUserExist(int user_id);
 
          bool checkAccount(loginData data);
 

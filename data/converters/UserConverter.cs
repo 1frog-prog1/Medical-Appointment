@@ -1,4 +1,4 @@
-using domain;
+using domain.models.user;
 using data.models;
 
 namespace data.converters

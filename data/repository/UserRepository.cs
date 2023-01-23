@@ -51,8 +51,12 @@ namespace data.repository
             return UserConverter.toDomain(user);
         }
 
-        public bool isExist(string login) {
+        public bool isLoginExist(string login) {
             return db.UserDb.Any(user => user.login == login);
+        }
+        
+        public bool isUserExist(int user_id) {
+            return db.UserDb.Any(user => user.Id == user_id);
         }
 
         public bool checkAccount(loginData data) {

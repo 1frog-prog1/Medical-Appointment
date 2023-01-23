@@ -22,7 +22,7 @@ namespace domain.models.user.usecase
             string.IsNullOrEmpty(user.fio)) 
                 return Result.Fail<User>("There must be no empty fields");
 
-            if (repository.isExist(user.login))
+            if (repository.isLoginExist(user.login))
                 return Result.Fail<User>("This login already exists");
             
             repository.create(user);

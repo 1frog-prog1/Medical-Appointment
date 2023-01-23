@@ -6,10 +6,10 @@ namespace data
 {
     public class ApplicationContextFactory : IDesignTimeDbContextFactory<ApplicationContext>
     {
-        public ApplicationContext CreateDbContext(string[] args) {
+        public ApplicationContext CreateDbContext(string[]? args = null) {
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
             optionsBuilder.UseNpgsql(
-               // string for connection with db whule working with migrations
+                $"Host=localhost;Port=5432;Database=MedAppointment;Username=evkima;Password=Qwerty132"
             );
 
             return new ApplicationContext(optionsBuilder.Options);
