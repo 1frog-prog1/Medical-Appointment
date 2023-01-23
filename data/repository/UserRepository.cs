@@ -19,7 +19,7 @@ namespace data.repository
             db.SaveChanges();
         }
 
-        public IEnumerable<User> getAll() { 
+        public List<User> getAll() { 
             return db.UserDb.Select(model => UserConverter.toDomain(model)).ToList();
          }
 

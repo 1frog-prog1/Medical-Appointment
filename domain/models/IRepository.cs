@@ -2,7 +2,7 @@ namespace domain.models
 {
     public interface IRepository<T>  {
 
-        IEnumerable<T> getAll();
+        List<T> getAll();
 
         void create(T item);
 

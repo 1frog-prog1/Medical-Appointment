@@ -29,7 +29,8 @@ namespace tests
             }
             user_rep.create(user);
             Assert.True(user_rep.isLoginExist(user.login));
-            user_rep.delete(user.Id);
+            user = user_rep.findUserByLogin("crocodile");
+            var res = user_rep.delete(user.Id);
             Assert.False(user_rep.isLoginExist(user.login));
         }
 
