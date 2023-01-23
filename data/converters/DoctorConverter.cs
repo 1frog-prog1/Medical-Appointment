@@ -14,11 +14,11 @@ namespace data.converters
         }
 
     public static DoctorModel toModel(Doctor doctor) {
-        return new DoctorModel (
-            doctor.Id,
-            doctor.fio,
-            doctor.specialisation_id
-        );
+        return new DoctorModel {
+            Id = doctor.Id,
+            fio = doctor.fio,
+            specialisation_id = doctor.specialisation_id
+        };
     }
     }
 }

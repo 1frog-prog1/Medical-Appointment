@@ -4,16 +4,14 @@ namespace domain.models.appointment
     {
         public bool isExist (int appointment_id);
 
-        public void addDoctorAppointment(Appointment appointment);
+        public bool updatePatientInDoctorAppointment(int appointment_id, int patient_id);
 
-        public void updatePatientInDoctorAppointment(Appointment appointment, int patient_id);
-
-        public void deleteDoctorAppointment(Appointment appointment);
+       // public void deleteDoctorAppointment(Appointment appointment);
 
         public bool isDoctorFreeAtTime(DateTime start, int doctor_id);
 
         public bool isAnyDoctorFreeAtTime(int spec_id, DateTime start);
-        public void saveAppointmentToDoctorId(Appointment appointment);
+        public bool saveAppointmentToDoctorId(int appointment_id, int patient_id);
          
         public int saveAppointmentToAnyDoctor(int spec_id, DateTime start, int patient_id); // return doctor_id
 

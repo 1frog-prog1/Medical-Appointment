@@ -2,7 +2,7 @@ namespace domain.models.appointment
 {
     public class Appointment
     {
-        int Id;
+        public int Id;
         public DateTime start;
         
         public DateTime end;

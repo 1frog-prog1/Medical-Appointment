@@ -11,5 +11,8 @@ namespace data.models
         public DateTime end {get; set;}
         public int patient_id {get; set;}
         public int doctor_id {get; set;}
+
+        
+
     }
 }

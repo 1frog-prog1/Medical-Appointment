@@ -27,7 +27,7 @@ namespace domain.models.appointment
             if (!repository.isDoctorFreeAtTime(appointment.start, appointment.doctor_id))
                 return Result.Fail<Appointment>("The time is already busy");
 
-            repository.saveAppointmentToDoctorId(appointment);
+            repository.saveAppointmentToDoctorId(appointment.Id, appointment.patient_id);
             return Result.Ok<Appointment>(appointment);        
         }
 

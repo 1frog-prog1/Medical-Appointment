@@ -17,14 +17,14 @@ namespace data.converters
         }
 
     public static UserModel toModel(User user) {
-        return new UserModel (
-            user.Id,
-            user.login,
-            user.password,
-            user.phone,
-            user.fio,
-            user.role_id
-        );
+        return new UserModel {
+            Id = user.Id,
+            login = user.login,
+            password = user.password,
+            phone = user.phone,
+            fio = user.fio,
+            role_id = user.role_id
+        };
     }
 
     }
