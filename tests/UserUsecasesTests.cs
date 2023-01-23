@@ -1,7 +1,7 @@
 using Xunit;
 using domain.models.user.usecase;
 using Moq;
-using domain.models.user.iuserepository;
+using domain.models.user;
 using domain.models.user.model;
 using domain;
 using domain.models;

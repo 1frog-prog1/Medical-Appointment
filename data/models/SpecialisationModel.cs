@@ -1,8 +1,11 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace data.models
 {
     public class SpecialisationModel
     {
-        public int Id;
-        public string name;
+        [Key]
+        public int Id {get; set;}
+        public string name {get; set;}
     }
 }

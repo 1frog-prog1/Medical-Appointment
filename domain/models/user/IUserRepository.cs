@@ -1,8 +1,8 @@
-namespace domain.models.user.iuserepository
-{
+using domain.models;
+using domain.models.user.model;
 
-    using domain.models;
-    using domain.models.user.model;
+namespace domain.models.user
+{
     public interface IUserRepository : IRepository<User>
     {
          bool isExist(string login);

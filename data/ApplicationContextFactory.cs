@@ -8,7 +8,9 @@ namespace data
     {
         public ApplicationContext CreateDbContext(string[] args) {
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
-            optionsBuilder.UseNpgsql();
+            optionsBuilder.UseNpgsql(
+               // string for connection with db whule working with migrations
+            );
 
             return new ApplicationContext(optionsBuilder.Options);
         }

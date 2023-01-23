@@ -1,5 +1,5 @@
 using domain.models.user.model;
-using domain.models.user.iuserepository;
+using domain.models.user;
 using domain.models;
 
 

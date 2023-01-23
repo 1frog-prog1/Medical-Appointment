@@ -1,12 +1,15 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace data.models
 {
     public class AppointmentModel
     {
-        public int Id;
-        public DateTime start;
+        [Key]
+        public int Id {get; set;}
+        public DateTime start {get; set;}
         
-        public DateTime end;
-        public int patient_id;
-        public int doctor_id;
+        public DateTime end {get; set;}
+        public int patient_id {get; set;}
+        public int doctor_id {get; set;}
     }
 }

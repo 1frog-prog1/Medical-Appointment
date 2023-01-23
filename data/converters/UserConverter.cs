@@ -3,7 +3,7 @@ using data.models;
 
 namespace data.converters
 {
-    public class UserModelToDomainConverter
+    public static class UserConverter
     {
         public static User? toDomain(UserModel model) {
             return new User (
@@ -15,5 +15,17 @@ namespace data.converters
                 model.role_id
             );
         }
+
+    public static UserModel toModel(User user) {
+        return new UserModel (
+            user.Id,
+            user.login,
+            user.password,
+            user.phone,
+            user.fio,
+            user.role_id
+        );
+    }
+
     }
 }
