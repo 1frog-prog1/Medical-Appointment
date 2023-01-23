@@ -9,5 +9,7 @@ namespace domain.models.sheldue
 
          public Sheldue getDoctorSheldue(int doctor_id); 
 
+         public Sheldue getSheldueById(int sheldue_id);
+
     }
 }
