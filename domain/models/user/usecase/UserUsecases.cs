@@ -39,5 +39,16 @@ namespace domain.models.user.usecase
             return Result.Ok<User>(repository.findUserByLogin(data.login));
         }
 
+        public Result<User> getUserByLogin(string login) {
+            if (string.IsNullOrEmpty(login))
+                return Result.Fail<User>("There must be no empty fields");
+
+            if (!repository.isLoginExist(login))
+                return Result.Fail<User>("This login doesn't exist");
+
+            var user = repository.findUserByLogin(login);
+            return Result.Ok(user);
+        }
+
     }
 }
