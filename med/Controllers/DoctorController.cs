@@ -18,14 +18,14 @@ namespace med.Controllers
         }
 
         [HttpGet("createDoctor")]
-        public ActionResult<DoctorView> createDoctor([FromQuery]DoctorView doc_v) {
+        public async Task<ActionResult<DoctorView>> createDoctor([FromQuery]DoctorView doc_v) {
 
             var doc = new Doctor(
                 doc_v.fio,
                 doc_v.specialisation_id
             );
 
-            var res = _usecase.createDoctor(doc);
+            var res = await _usecase.createDoctor(doc);
 
             if (res.IsFailure)
                 return Problem(statusCode: 400, detail: res.Error);
@@ -37,9 +37,9 @@ namespace med.Controllers
         }
 
         [HttpGet("deleteDoctor")]
-        public ActionResult<bool> deleteDoctor(int doctor_id) {
+        public async Task<ActionResult<bool>> deleteDoctor(int doctor_id) {
 
-            var res = _usecase.deleteDoctor(doctor_id);
+            var res = await _usecase.deleteDoctor(doctor_id);
 
             if (res.IsFailure)
                 return Problem(statusCode: 400, detail: res.Error);
@@ -48,9 +48,9 @@ namespace med.Controllers
         }
 
         [HttpGet("getAllDoctors")]
-        public ActionResult<List<DoctorView>> getAllDoctors() {
+        public async Task<ActionResult<List<DoctorView>>> getAllDoctors() {
 
-            var res = _usecase.getAllDoctors();
+            var res = await _usecase.getAllDoctors();
 
             if (res.IsFailure)
                 return Problem(statusCode: 400, detail: res.Error);
@@ -63,9 +63,9 @@ namespace med.Controllers
         }
 
         [HttpGet("getDoctorById")]
-        public ActionResult<DoctorView> getDoctorById(int doctor_id) {
+        public async Task<ActionResult<DoctorView>> getDoctorById(int doctor_id) {
 
-            var res = _usecase.getDoctorById(doctor_id);
+            var res = await _usecase.getDoctorById(doctor_id);
 
             if (res.IsFailure)
                 return Problem(statusCode: 400, detail: res.Error);
@@ -78,9 +78,9 @@ namespace med.Controllers
         }
 
         [HttpGet("getDoctorsBySpecialisationId")]
-        public ActionResult<List<DoctorView>> getDoctorsBySpecialisationId(int spec_id) {
+        public async Task<ActionResult<List<DoctorView>>> getDoctorsBySpecialisationId(int spec_id) {
 
-            var res = _usecase.getDoctorsBySpecialisation(spec_id);
+            var res = await _usecase.getDoctorsBySpecialisation(spec_id);
 
             if (res.IsFailure)
                 return Problem(statusCode: 400, detail: res.Error);

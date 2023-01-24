@@ -5,13 +5,13 @@ namespace domain.models.user
 {
     public interface IUserRepository : IRepository<User>
     {
-         bool isLoginExist(string login);
+         Task<bool> isLoginExist(string login);
 
-         bool isUserExist(int user_id);
+         Task<bool> isUserExist(int user_id);
 
-         bool checkAccount(loginData data);
+         Task<bool> checkAccount(loginData data);
 
-         User findUserByLogin(string login);
+         Task<User> findUserByLogin(string login);
 
     }
 }

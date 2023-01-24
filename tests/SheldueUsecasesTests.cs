@@ -23,13 +23,13 @@ namespace tests
         }
 
         [Fact]
-        public void getDoctorSheldueByNegativeId_Fail()
+        public async void getDoctorSheldueByNegativeId_Fail()
         {
             // Given
             int doctor_id = -1;
         
             // When
-            var res = usecases.getDoctorSheldue(doctor_id);
+            var res = await usecases.getDoctorSheldue(doctor_id);
         
             // Then
             Assert.False(res.Success);
@@ -37,14 +37,14 @@ namespace tests
         }
 
         [Fact]
-        public void getDoctorSheldueByIncorrectId_Fail()
+        public async void getDoctorSheldueByIncorrectId_Fail()
         {
             // Given
             int doctor_id = 1;
-            doctorRepository.Setup(rep => rep.isExist(doctor_id)).Returns(false);
+            doctorRepository.Setup(rep => rep.isExist(doctor_id)).ReturnsAsync(false);
         
             // When
-            var res = usecases.getDoctorSheldue(doctor_id);
+            var res = await usecases.getDoctorSheldue(doctor_id);
         
             // Then
             Assert.False(res.Success);
@@ -52,14 +52,14 @@ namespace tests
         }
 
         [Fact]
-        public void getDoctorSheldueByCorrectId_Ok()
+        public async void getDoctorSheldueByCorrectId_Ok()
         {
             // Given
             int doctor_id = 1;
-            doctorRepository.Setup(rep => rep.isExist(doctor_id)).Returns(true);
+            doctorRepository.Setup(rep => rep.isExist(doctor_id)).ReturnsAsync(true);
         
             // When
-            var res = usecases.getDoctorSheldue(doctor_id);
+            var res = await usecases.getDoctorSheldue(doctor_id);
         
             // Then
             Assert.True(res.Success);

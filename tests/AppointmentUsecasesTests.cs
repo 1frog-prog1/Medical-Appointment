@@ -25,7 +25,7 @@ namespace tests
         }
 
         [Fact]
-        public void saveAppointmentByIncorrectTime_Fail()
+        public async void saveAppointmentByIncorrectTime_Fail()
         {
             // Given
             int doctor_id = 1;
@@ -34,10 +34,10 @@ namespace tests
             DateTime start = new DateTime(2023, 12, 30, 18, 20, 0);
             Appointment appointment = new Appointment(start, doctor_id, patient_id);
             
-            doc_repository.Setup(rep => rep.isExist(doctor_id)).Returns(true);
+            doc_repository.Setup(rep => rep.isExist(doctor_id)).ReturnsAsync(true);
         
             // When
-            var res = usecases.saveAppointmentByDoctorId(appointment);
+            var res = await usecases.saveAppointmentByDoctorId(appointment);
         
             // Then
             Assert.False(res.Success);
@@ -45,7 +45,7 @@ namespace tests
         }
 
         [Fact]
-        public void saveAppointmentByIncorrectDoctorId_Fail()
+        public async void saveAppointmentByIncorrectDoctorId_Fail()
         {
             // Given
             int doctor_id = 1;
@@ -54,10 +54,10 @@ namespace tests
             DateTime start = new DateTime(2023, 12, 30, 12, 20, 0);
             Appointment appointment = new Appointment(start, doctor_id, patient_id);
             
-            doc_repository.Setup(rep => rep.isExist(doctor_id)).Returns(false);
+            doc_repository.Setup(rep => rep.isExist(doctor_id)).ReturnsAsync(false);
         
             // When
-            var res = usecases.saveAppointmentByDoctorId(appointment);
+            var res = await usecases.saveAppointmentByDoctorId(appointment);
         
             // Then
             Assert.False(res.Success);
@@ -65,7 +65,7 @@ namespace tests
         }
 
         [Fact]
-        public void saveAppointmentAtBusyTimeByDoctorId_Fail()
+        public async void saveAppointmentAtBusyTimeByDoctorId_Fail()
         {
             // Given
             int doctor_id = 1;
@@ -74,11 +74,11 @@ namespace tests
             DateTime start = new DateTime(2023, 12, 30, 12, 20, 0);
             Appointment appointment = new Appointment(start, doctor_id, patient_id);
             
-            doc_repository.Setup(rep => rep.isExist(doctor_id)).Returns(true);
-            repository.Setup(rep => rep.isDoctorFreeAtTime(start, doctor_id)).Returns(false);
+            doc_repository.Setup(rep => rep.isExist(doctor_id)).ReturnsAsync(true);
+            repository.Setup(rep => rep.isDoctorFreeAtTime(start, doctor_id)).ReturnsAsync(false);
         
             // When
-            var res = usecases.saveAppointmentByDoctorId(appointment);
+            var res = await usecases.saveAppointmentByDoctorId(appointment);
         
             // Then
             Assert.False(res.Success);
@@ -86,7 +86,7 @@ namespace tests
         }
 
         [Fact]
-        public void saveAppointmentAtFreeTimeByDoctorId_Ok()
+        public async void saveAppointmentAtFreeTimeByDoctorId_Ok()
         {
             // Given
             int doctor_id = 1;
@@ -95,11 +95,11 @@ namespace tests
             DateTime start = new DateTime(2023, 12, 30, 12, 20, 0);
             Appointment appointment = new Appointment(start, doctor_id, patient_id);
             
-            doc_repository.Setup(rep => rep.isExist(doctor_id)).Returns(true);
-            repository.Setup(rep => rep.isDoctorFreeAtTime(start, doctor_id)).Returns(true);
+            doc_repository.Setup(rep => rep.isExist(doctor_id)).ReturnsAsync(true);
+            repository.Setup(rep => rep.isDoctorFreeAtTime(start, doctor_id)).ReturnsAsync(true);
         
             // When
-            var res = usecases.saveAppointmentByDoctorId(appointment);
+            var res = await usecases.saveAppointmentByDoctorId(appointment);
         
             // Then
             Assert.True(res.Success);
@@ -107,7 +107,7 @@ namespace tests
         }
 
         [Fact]
-        public void saveAppointmentAtIncorrectTimeToAnyDoctor_Fail()
+        public async void saveAppointmentAtIncorrectTimeToAnyDoctor_Fail()
         {
             // Given
             int patient_id = 1;
@@ -115,7 +115,7 @@ namespace tests
             DateTime start = new DateTime(2023, 12, 30, 18, 20, 0);
         
             // When
-            var res = usecases.saveAppointmentToAnyDoctor(start, spec_id, patient_id);
+            var res = await usecases.saveAppointmentToAnyDoctor(start, spec_id, patient_id);
         
             // Then
             Assert.False(res.Success);
@@ -123,17 +123,17 @@ namespace tests
         }
 
         [Fact]
-        public void saveAppointmentAtNonExistingSpecToAnyDoctor_Fail()
+        public async void saveAppointmentAtNonExistingSpecToAnyDoctor_Fail()
         {
             // Given
             int patient_id = 1;
             int spec_id = 1;
             DateTime start = new DateTime(2023, 12, 30, 12, 20, 0);
 
-            spec_repository.Setup(rep => rep.isExist(spec_id)).Returns(false);
+            spec_repository.Setup(rep => rep.isExist(spec_id)).ReturnsAsync(false);
         
             // When
-            var res = usecases.saveAppointmentToAnyDoctor(start, spec_id, patient_id);
+            var res = await usecases.saveAppointmentToAnyDoctor(start, spec_id, patient_id);
         
             // Then
             Assert.False(res.Success);
@@ -141,18 +141,18 @@ namespace tests
         }
 
         [Fact]
-        public void saveAppointmentAtBusyTimeToAnyDoctor_Fail()
+        public async void saveAppointmentAtBusyTimeToAnyDoctor_Fail()
         {
             // Given
             int patient_id = 1;
             int spec_id = 1;
             DateTime start = new DateTime(2023, 12, 30, 12, 20, 0);
 
-            spec_repository.Setup(rep => rep.isExist(spec_id)).Returns(true);
-            repository.Setup(rep => rep.isAnyDoctorFreeAtTime(spec_id, start)).Returns(false);
+            spec_repository.Setup(rep => rep.isExist(spec_id)).ReturnsAsync(true);
+            repository.Setup(rep => rep.isAnyDoctorFreeAtTime(spec_id, start)).ReturnsAsync(false);
         
             // When
-            var res = usecases.saveAppointmentToAnyDoctor(start, spec_id, patient_id);
+            var res = await usecases.saveAppointmentToAnyDoctor(start, spec_id, patient_id);
         
             // Then
             Assert.False(res.Success);
@@ -160,18 +160,18 @@ namespace tests
         }
 
         [Fact]
-        public void saveAppointmentCorrectDataToAnyDoctor_Ok()
+        public async void saveAppointmentCorrectDataToAnyDoctor_Ok()
         {
             // Given
             int patient_id = 1;
             int spec_id = 1;
             DateTime start = new DateTime(2023, 12, 30, 12, 20, 0);
 
-            spec_repository.Setup(rep => rep.isExist(spec_id)).Returns(true);
-            repository.Setup(rep => rep.isAnyDoctorFreeAtTime(spec_id, start)).Returns(true);
+            spec_repository.Setup(rep => rep.isExist(spec_id)).ReturnsAsync(true);
+            repository.Setup(rep => rep.isAnyDoctorFreeAtTime(spec_id, start)).ReturnsAsync(true);
         
             // When
-            var res = usecases.saveAppointmentToAnyDoctor(start, spec_id, patient_id);
+            var res = await usecases.saveAppointmentToAnyDoctor(start, spec_id, patient_id);
         
             // Then
             Assert.True(res.Success);
@@ -179,14 +179,14 @@ namespace tests
         }
 
         [Fact]
-        public void getAppointmentsByIncorrectSpecialisationId_Fail()
+        public async void getAppointmentsByIncorrectSpecialisationId_Fail()
         {
             // Given
             int spec_id = 1;
 
-            spec_repository.Setup(rep => rep.isExist(spec_id)).Returns(false);        
+            spec_repository.Setup(rep => rep.isExist(spec_id)).ReturnsAsync(false);        
             // When
-            var res = usecases.getAllFreeTimeBySpecialisationId(spec_id);
+            var res = await usecases.getAllFreeTimeBySpecialisationId(spec_id);
         
             // Then
             Assert.False(res.Success);
@@ -194,14 +194,14 @@ namespace tests
         }
 
         [Fact]
-        public void getAppointmentsByCorrectSpecialisationId_Ok()
+        public async void getAppointmentsByCorrectSpecialisationId_Ok()
         {
             // Given
             int spec_id = 1;
 
-            spec_repository.Setup(rep => rep.isExist(spec_id)).Returns(true);        
+            spec_repository.Setup(rep => rep.isExist(spec_id)).ReturnsAsync(true);        
             // When
-            var res = usecases.getAllFreeTimeBySpecialisationId(spec_id);
+            var res = await usecases.getAllFreeTimeBySpecialisationId(spec_id);
         
             // Then
             Assert.True(res.Success);

@@ -2,12 +2,12 @@ namespace domain.models
 {
     public interface IRepository<T>  {
 
-        List<T> getAll();
+        Task<List<T>> getAll();
 
         void create(T item);
 
-        T update(T item);
+        Task<T> update(T item);
 
-        bool delete(int id);
+        Task<bool> delete(int id);
     }
 }

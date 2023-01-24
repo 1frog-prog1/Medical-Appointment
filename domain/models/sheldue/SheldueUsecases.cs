@@ -13,13 +13,13 @@ namespace domain.models.sheldue
             this.doc_repository = doctorRepository;
         }
 
-        public Result<Sheldue> getDoctorSheldue(int doctor_id) {
+        public async Task<Result<Sheldue>> getDoctorSheldue(int doctor_id) {
             if (doctor_id <= 0)
                 return Result.Fail<Sheldue>("The doctor_id is negative");
-            if (!doc_repository.isExist(doctor_id))
+            if (!(await doc_repository.isExist(doctor_id)))
                 return Result.Fail<Sheldue>("Such doctor doesn't exist");
 
-            var doctor_sheldue = repository.getDoctorSheldue(doctor_id);
+            var doctor_sheldue = await repository.getDoctorSheldue(doctor_id);
             return Result.Ok<Sheldue>(doctor_sheldue);
         }
     }

@@ -19,9 +19,9 @@ namespace med.Controllers
         }
 
         [HttpGet("login")]
-        public ActionResult<UserView> getUserByLogin(string login) {
+        public async Task<ActionResult<UserView>> getUserByLogin(string login) {
 
-            var user_res = _usecase.getUserByLogin(login);
+            var user_res = await _usecase.getUserByLogin(login);
 
             if(user_res.IsFailure) 
                 return Problem(statusCode: 400, detail: user_res.Error);
@@ -36,7 +36,7 @@ namespace med.Controllers
         }
 
         [HttpGet("signUp")]
-        public ActionResult<UserView> signUpUser([FromQuery]UserView user_v) {
+        public async Task<ActionResult<UserView>> signUpUser([FromQuery]UserView user_v) {
             
             var user = new User(
                 user_v.login,
@@ -46,7 +46,7 @@ namespace med.Controllers
                 user_v.role_id
             );
 
-            var createRes = _usecase.signUpUser(user);
+            var createRes = await _usecase.signUpUser(user);
 
             if (createRes.IsFailure)
                 return Problem(statusCode: 400, detail: createRes.Error);
@@ -55,9 +55,9 @@ namespace med.Controllers
         }
 
         [HttpGet("signIn")]
-        public ActionResult<UserView> signInUser(string login, string password) {
+        public async Task<ActionResult<UserView>> signInUser(string login, string password) {
 
-            var user_res = _usecase.signInUser(new loginData(login, password));
+            var user_res = await _usecase.signInUser(new loginData(login, password));
 
             if (user_res.IsFailure)
                 return Problem(statusCode: 400, detail: user_res.Error);
