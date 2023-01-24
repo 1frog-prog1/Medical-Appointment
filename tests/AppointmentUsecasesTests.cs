@@ -6,6 +6,7 @@ using System;
 using domain.models.appointment;
 using domain.models;
 using domain.models.specialisation;
+using domain.models.doctor;
 
 namespace tests
 {
@@ -13,12 +14,14 @@ namespace tests
     {
         private readonly Mock<IAppointmentRepository> repository;
         private readonly Mock<ISpecialisationRepository> spec_repository;
+        private readonly Mock<IDoctorRepository> doc_repository;
         private readonly AppointmentUsecases usecases;
 
         public AppointmentUsecasesTests() {
             repository = new Mock<IAppointmentRepository>();
             spec_repository =  new Mock<ISpecialisationRepository>();
-            usecases = new AppointmentUsecases(repository.Object, spec_repository.Object);
+            doc_repository = new Mock<IDoctorRepository>();
+            usecases = new AppointmentUsecases(repository.Object, spec_repository.Object, doc_repository.Object);
         }
 
         [Fact]
@@ -29,10 +32,9 @@ namespace tests
             int patient_id = 1;
 
             DateTime start = new DateTime(2023, 12, 30, 18, 20, 0);
-            DateTime end = new DateTime(2023, 12, 30, 18, 40, 0);
-            Appointment appointment = new Appointment(start, end, doctor_id, patient_id);
+            Appointment appointment = new Appointment(start, doctor_id, patient_id);
             
-            repository.Setup(rep => rep.isDoctorExist(doctor_id)).Returns(true);
+            doc_repository.Setup(rep => rep.isExist(doctor_id)).Returns(true);
         
             // When
             var res = usecases.saveAppointmentByDoctorId(appointment);
@@ -50,10 +52,9 @@ namespace tests
             int patient_id = 1;
 
             DateTime start = new DateTime(2023, 12, 30, 12, 20, 0);
-            DateTime end = new DateTime(2023, 12, 30, 12, 40, 0);
-            Appointment appointment = new Appointment(start, end, doctor_id, patient_id);
+            Appointment appointment = new Appointment(start, doctor_id, patient_id);
             
-            repository.Setup(rep => rep.isDoctorExist(doctor_id)).Returns(false);
+            doc_repository.Setup(rep => rep.isExist(doctor_id)).Returns(false);
         
             // When
             var res = usecases.saveAppointmentByDoctorId(appointment);
@@ -71,10 +72,9 @@ namespace tests
             int patient_id = 1;
 
             DateTime start = new DateTime(2023, 12, 30, 12, 20, 0);
-            DateTime end = new DateTime(2023, 12, 30, 12, 40, 0);
-            Appointment appointment = new Appointment(start, end, doctor_id, patient_id);
+            Appointment appointment = new Appointment(start, doctor_id, patient_id);
             
-            repository.Setup(rep => rep.isDoctorExist(doctor_id)).Returns(true);
+            doc_repository.Setup(rep => rep.isExist(doctor_id)).Returns(true);
             repository.Setup(rep => rep.isDoctorFreeAtTime(start, doctor_id)).Returns(false);
         
             // When
@@ -93,10 +93,9 @@ namespace tests
             int patient_id = 1;
 
             DateTime start = new DateTime(2023, 12, 30, 12, 20, 0);
-            DateTime end = new DateTime(2023, 12, 30, 12, 40, 0);
-            Appointment appointment = new Appointment(start, end, doctor_id, patient_id);
+            Appointment appointment = new Appointment(start, doctor_id, patient_id);
             
-            repository.Setup(rep => rep.isDoctorExist(doctor_id)).Returns(true);
+            doc_repository.Setup(rep => rep.isExist(doctor_id)).Returns(true);
             repository.Setup(rep => rep.isDoctorFreeAtTime(start, doctor_id)).Returns(true);
         
             // When

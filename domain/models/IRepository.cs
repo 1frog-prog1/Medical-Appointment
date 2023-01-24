@@ -1,16 +1,13 @@
 namespace domain.models
 {
-    public interface IRepository<T> : IDisposable where T : class {
+    public interface IRepository<T>  {
 
-        IEnumerable<T> Get();
+        List<T> getAll();
 
         void create(T item);
 
-        void update(T item);
+        T update(T item);
 
-        void delete(int id);
-
-        void save();
-
+        bool delete(int id);
     }
 }

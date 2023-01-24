@@ -33,8 +33,7 @@ namespace domain.models.doctor
         }
 
         public Result<List<Doctor>> getAllDoctors() {
-            var doctor_container = repository.Get();
-            List<Doctor> doctor_list = doctor_container.ToList<Doctor>();
+            var doctor_list = repository.getAll();
             return Result.Ok<List<Doctor>>(doctor_list); // no danger: list can be empty?
         }
 

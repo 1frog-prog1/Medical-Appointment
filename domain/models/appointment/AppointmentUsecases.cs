@@ -1,4 +1,5 @@
 using domain.models.specialisation;
+using domain.models.doctor;
 
 namespace domain.models.appointment
 {
@@ -6,10 +7,13 @@ namespace domain.models.appointment
     {
         private readonly IAppointmentRepository repository;
         private readonly ISpecialisationRepository spec_repository;
+        private readonly IDoctorRepository doc_repository;
 
-        public AppointmentUsecases(IAppointmentRepository repository, ISpecialisationRepository spec_repository) {
+        public AppointmentUsecases(IAppointmentRepository repository, ISpecialisationRepository spec_repository,
+                                    IDoctorRepository doc_repository) {
             this.repository = repository;
             this.spec_repository = spec_repository;
+            this.doc_repository = doc_repository;
         }
 
         public Result<Appointment> saveAppointmentByDoctorId(Appointment appointment) {
@@ -17,13 +21,13 @@ namespace domain.models.appointment
             if (appointment.start.TimeOfDay > end_day)
                 return Result.Fail<Appointment>("Such time doesn't exist");
 
-            if (!repository.isDoctorExist(appointment.doctor_id))
+            if (!doc_repository.isExist(appointment.doctor_id))
                 return Result.Fail<Appointment>("Such doctor doesn't exist");
 
             if (!repository.isDoctorFreeAtTime(appointment.start, appointment.doctor_id))
                 return Result.Fail<Appointment>("The time is already busy");
 
-            repository.saveAppointmentToDoctorId(appointment);
+            repository.saveAppointmentToDoctorId(appointment.Id, appointment.patient_id);
             return Result.Ok<Appointment>(appointment);        
         }
 

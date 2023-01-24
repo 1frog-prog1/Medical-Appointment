@@ -1,7 +1,7 @@
 using Xunit;
 using domain.models.user.usecase;
 using Moq;
-using domain.models.user.iuserepository;
+using domain.models.user;
 using domain.models.user.model;
 using domain;
 using domain.models;
@@ -16,7 +16,7 @@ public class UserUsecasesTests
     private readonly Mock<IUserRepository> repository;
 
     private User createUser(string login) {
-        return new User(login, "1111", "88005553535", 
+        return new User(1, login, "1111", "88005553535", 
             "Ванька Дурачок Петрович", Role.Patient);
     }
 
@@ -103,7 +103,7 @@ public class UserUsecasesTests
     {
         // arrange
         var empty_user = createUser("abcabc");
-        repository.Setup(rep => rep.isExist(empty_user.login)).Returns(true);
+        repository.Setup(rep => rep.isLoginExist(empty_user.login)).Returns(true);
         
         // act
         var res = usecases.signUpUser(empty_user);
@@ -118,7 +118,7 @@ public class UserUsecasesTests
     {
         // arrange
         var empty_user = createUser("abcabc");
-        repository.Setup(rep => rep.isExist(empty_user.login)).Returns(false);
+        repository.Setup(rep => rep.isLoginExist(empty_user.login)).Returns(false);
         
         // act
         var res = usecases.signUpUser(empty_user);
