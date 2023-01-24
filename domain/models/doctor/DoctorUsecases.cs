@@ -24,12 +24,15 @@ namespace domain.models.doctor
             return Result.Ok<Doctor>(doctor);
         }
 
-        public Result<int> deleteDoctor(int doctor_id) {
+        public Result<bool> deleteDoctor(int doctor_id) {
             if (doctor_id <= 0)
-                return Result.Fail<int>("Incorrect ID");
+                return Result.Fail<bool>("Incorrect ID");
             
-            repository.delete(doctor_id); // existence can check DB
-            return Result.Ok<int>(doctor_id);
+            if (!repository.isExist(doctor_id))
+                return Result.Fail<bool>("Such doctor doesn't exist");
+
+            bool res = repository.delete(doctor_id);
+            return Result.Ok<bool>(res);
         }
 
         public Result<List<Doctor>> getAllDoctors() {
