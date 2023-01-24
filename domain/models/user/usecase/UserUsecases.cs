@@ -14,7 +14,7 @@ namespace domain.models.user.usecase
             repository = userRepository;
         }
 
-        public Result<User> signUpUser(User user) {
+        public async Task<Result<User>> signUpUser(User user) {
 
             if (string.IsNullOrEmpty(user.login) ||
             string.IsNullOrEmpty(user.password) ||
@@ -22,32 +22,32 @@ namespace domain.models.user.usecase
             string.IsNullOrEmpty(user.fio)) 
                 return Result.Fail<User>("There must be no empty fields");
 
-            if (repository.isLoginExist(user.login))
+            if (await repository.isLoginExist(user.login))
                 return Result.Fail<User>("This login already exists");
             
             repository.create(user);
             return Result.Ok<User>(user);
         }
 
-        public Result<User> signInUser(loginData data) {
+        public async Task<Result<User>> signInUser(loginData data) {
 
             if (string.IsNullOrEmpty(data.login) || string.IsNullOrEmpty(data.password))
                 return Result.Fail<User>("There must be no empty fields");
 
-            if (!repository.checkAccount(data))
+            if (!(await repository.checkAccount(data)))
                 return Result.Fail<User>("Error. Check your login or password");
-            return Result.Ok<User>(repository.findUserByLogin(data.login));
+            return Result.Ok<User>(await repository.findUserByLogin(data.login));
         }
 
-        public Result<User> getUserByLogin(string login) {
+        public async Task<Result<User>> getUserByLogin(string login) {
             if (string.IsNullOrEmpty(login))
                 return Result.Fail<User>("There must be no empty fields");
 
-            if (!repository.isLoginExist(login))
+            if (!(await repository.isLoginExist(login)))
                 return Result.Fail<User>("This login doesn't exist");
 
-            var user = repository.findUserByLogin(login);
-            return Result.Ok(user);
+            var user = await repository.findUserByLogin(login);
+            return Result.Ok<User>(user);
         }
 
     }

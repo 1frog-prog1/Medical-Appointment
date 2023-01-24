@@ -16,42 +16,42 @@ namespace domain.models.appointment
             this.doc_repository = doc_repository;
         }
 
-        public Result<Appointment> saveAppointmentByDoctorId(Appointment appointment) {
+        public async Task<Result<Appointment>> saveAppointmentByDoctorId(Appointment appointment) {
             var end_day = new DateTime(1, 1, 1, 18, 0, 0).TimeOfDay;
             if (appointment.start.TimeOfDay > end_day)
                 return Result.Fail<Appointment>("Such time doesn't exist");
 
-            if (!doc_repository.isExist(appointment.doctor_id))
+            if (!(await doc_repository.isExist(appointment.doctor_id)))
                 return Result.Fail<Appointment>("Such doctor doesn't exist");
 
-            if (!repository.isDoctorFreeAtTime(appointment.start, appointment.doctor_id))
+            if (!(await repository.isDoctorFreeAtTime(appointment.start, appointment.doctor_id)))
                 return Result.Fail<Appointment>("The time is already busy");
 
-            repository.saveAppointmentToDoctorId(appointment.Id, appointment.patient_id);
+            await repository.saveAppointmentToDoctorId(appointment.Id, appointment.patient_id);
             return Result.Ok<Appointment>(appointment);        
         }
 
-        public Result<Appointment> saveAppointmentToAnyDoctor(DateTime start, int spec_id, int patient_id) {
+        public async Task<Result<Appointment>> saveAppointmentToAnyDoctor(DateTime start, int spec_id, int patient_id) {
             var end_day = new DateTime(1, 1, 1, 18, 0, 0).TimeOfDay;
             if (start.TimeOfDay > end_day)
                 return Result.Fail<Appointment>("Such time doesn't exist");
 
-            if (!spec_repository.isExist(spec_id))
+            if (!(await spec_repository.isExist(spec_id)))
                 return Result.Fail<Appointment>("Such specialisation doesn't exist");
 
-            if (!repository.isAnyDoctorFreeAtTime(spec_id, start))
+            if (!(await repository.isAnyDoctorFreeAtTime(spec_id, start)))
                 return Result.Fail<Appointment>("The time is already busy");
 
-            int doctor_id = repository.saveAppointmentToAnyDoctor(spec_id, start, patient_id);
+            int doctor_id = await repository.saveAppointmentToAnyDoctor(spec_id, start, patient_id);
             var appointment = new Appointment(start, patient_id, doctor_id);
             return Result.Ok<Appointment>(appointment);        
         }
 
-        public Result<List<Appointment>> getAllFreeTimeBySpecialisationId(int spec_id) {
-            if (!spec_repository.isExist(spec_id))
+        public async Task<Result<List<Appointment>>> getAllFreeTimeBySpecialisationId(int spec_id) {
+            if (!(await spec_repository.isExist(spec_id)))
                 return Result.Fail<List<Appointment>>("Such specialisation doesn't exist");
 
-            List<Appointment> free_appointments = repository.getAllFreeAppointmentsBySpecialistaionId(spec_id);
+            List<Appointment> free_appointments = await repository.getAllFreeAppointmentsBySpecialistaionId(spec_id);
             return Result.Ok<List<Appointment>>(free_appointments);
         }
     }

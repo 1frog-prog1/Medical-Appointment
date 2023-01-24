@@ -15,47 +15,43 @@ namespace domain.models.doctor
             this.spec_repository = spec_repository;
         }
 
-        public Result<Doctor> createDoctor(Doctor doctor) {
+        public async Task<Result<Doctor>> createDoctor(Doctor doctor) {
             if (string.IsNullOrEmpty(doctor.fio))
                 return Result.Fail<Doctor>("Empty field of FIO");
-            if (!spec_repository.isExist(doctor.specialisation_id))
+            if (!(await spec_repository.isExist(doctor.specialisation_id)))
                 return Result.Fail<Doctor>("Such specialisation doesn't exist");
             repository.create(doctor);
             return Result.Ok<Doctor>(doctor);
         }
 
-        public Result<bool> deleteDoctor(int doctor_id) {
+        public async Task<Result<bool>> deleteDoctor(int doctor_id) {
             if (doctor_id <= 0)
                 return Result.Fail<bool>("Incorrect ID");
-            
-            if (!repository.isExist(doctor_id))
-                return Result.Fail<bool>("Such doctor doesn't exist");
 
-            bool res = repository.delete(doctor_id);
+            bool res = await repository.delete(doctor_id);
             return Result.Ok<bool>(res);
         }
 
-        public Result<List<Doctor>> getAllDoctors() {
-            var doctor_list = repository.getAll();
+        public async Task<Result<List<Doctor>>> getAllDoctors() {
+            var doctor_list = await repository.getAll();
             return Result.Ok<List<Doctor>>(doctor_list); // no danger: list can be empty?
         }
 
-        public Result<Doctor> getDoctorById(int doctor_id) {
+        public async Task<Result<Doctor>> getDoctorById(int doctor_id) {
             if (doctor_id <= 0)
                 return Result.Fail<Doctor>("Incorrect ID");
 
-            if (!repository.isExist(doctor_id))
+            if (!(await repository.isExist(doctor_id)))
                 return Result.Fail<Doctor>("Such doctor doesn't exist");
 
-            var doctor = repository.findDoctorByID(doctor_id);
+            var doctor = await repository.findDoctorByID(doctor_id);
             return Result.Ok<Doctor>(doctor);
         }
 
-        public Result<List<Doctor>> getDoctorsBySpecialisation(int spec_id) {
-            if (spec_id <= 0 || !spec_repository.isExist(spec_id))
+        public async Task<Result<List<Doctor>>> getDoctorsBySpecialisation(int spec_id) {
+            if (spec_id <= 0 || !(await spec_repository.isExist(spec_id)))
                 return Result.Fail<List<Doctor>>("Incorrect specialisation ID");
-            var doctor_container = repository.findDoctorListBySpecialisation(spec_id);
-            var doctor_list = doctor_container.ToList<Doctor>();
+            var doctor_list = await repository.findDoctorListBySpecialisation(spec_id);
             return Result.Ok<List<Doctor>>(doctor_list);
         }
 

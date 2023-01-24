@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+
 using domain.models.sheldue;
 using domain.models;
 using data.converters;
@@ -13,43 +15,43 @@ namespace data.repository
             this.db = db;
         }
 
-        public void create(Sheldue sheldue) {
-            db.SheldueDb.Add(SheldueConverter.toModel(sheldue));
-            db.SaveChanges();
+        public async void create(Sheldue sheldue) {
+            await db.SheldueDb.AddAsync(SheldueConverter.toModel(sheldue));
+            await db.SaveChangesAsync();
         }
 
-        public bool delete(int shel_id) {
-            SheldueModel sheldue = db.SheldueDb.FirstOrDefault(shel => shel.Id == shel_id);
+        public async Task<bool> delete(int shel_id) {
+            SheldueModel sheldue = await db.SheldueDb.FirstOrDefaultAsync(shel => shel.Id == shel_id);
             if (sheldue != null) {
                 db.SheldueDb.Remove(sheldue);
-                db.SaveChanges();
+                await db.SaveChangesAsync();
                 return true;
             }
             return false;
         }
 
-        public Sheldue getSheldueById(int sheldue_id) {
-            var sheldue = db.SheldueDb.FirstOrDefault(shel => shel.Id == sheldue_id);
+        public async Task<Sheldue> getSheldueById(int sheldue_id) {
+            var sheldue = await db.SheldueDb.FirstOrDefaultAsync(shel => shel.Id == sheldue_id);
             return SheldueConverter.toDomain(sheldue);
         }
 
 
-        public Sheldue getDoctorSheldue(int doctor_id) {
-            var doc_sheldue = db.SheldueDb.FirstOrDefault(shel => shel.doctor_id == doctor_id);
+        public async Task<Sheldue> getDoctorSheldue(int doctor_id) {
+            var doc_sheldue = await db.SheldueDb.FirstOrDefaultAsync(shel => shel.doctor_id == doctor_id);
             return SheldueConverter.toDomain(doc_sheldue);
         }
 
-        public List<Sheldue> getAll() {
-            return db.SheldueDb.Select(shel => SheldueConverter.toDomain(shel)).ToList();
+        public async Task<List<Sheldue>> getAll() {
+            return await db.SheldueDb.Select(shel => SheldueConverter.toDomain(shel)).ToListAsync();
         }
 
-        public Sheldue update(Sheldue shel) {
-            SheldueModel _shel = db.SheldueDb.FirstOrDefault(_shel => _shel.Id == shel.Id);
+        public async Task<Sheldue> update(Sheldue shel) {
+            SheldueModel _shel = await db.SheldueDb.FirstOrDefaultAsync(_shel => _shel.Id == shel.Id);
             if (_shel != null) {
             _shel.doctor_id = shel.doctor_id;
             _shel.day_start = shel.day_start;
             _shel.day_end = shel.day_end;
-            db.SaveChanges();
+            await db.SaveChangesAsync();
             }
             return shel;
         }

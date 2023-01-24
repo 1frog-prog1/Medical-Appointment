@@ -26,13 +26,13 @@ public class UserUsecasesTests
     }
 
     [Fact]
-    public void signInUserEmptyFieldTest_Fail()
+    public async void signInUserEmptyFieldTest_Fail()
     {
         // arrange
         var empty_data = new loginData("", "something");
         
         // act
-        var res = usecases.signInUser(empty_data);
+        var res = await usecases.signInUser(empty_data);
 
         //assert
         Assert.False(res.Success);
@@ -40,13 +40,13 @@ public class UserUsecasesTests
     }
 
     [Fact]
-    public void signInUserNullFieldTest_Fail()
+    public async void signInUserNullFieldTest_Fail()
     {
         // arrange
         var null_data = new loginData(null, null);
         
         // act
-        var res = usecases.signInUser(null_data);
+        var res = await usecases.signInUser(null_data);
 
         //assert
         Assert.False(res.Success);
@@ -54,14 +54,14 @@ public class UserUsecasesTests
     }
 
     [Fact]
-    public void signInUserIncorrectLoginDataTest_Fail()
+    public async void signInUserIncorrectLoginDataTest_Fail()
     {
         // arrange
         var incorrect_data = new loginData("user", "incorrect password");
-        repository.Setup(rep=>rep.checkAccount(incorrect_data)).Returns(false);
+        repository.Setup(rep=>rep.checkAccount(incorrect_data)).ReturnsAsync(false);
         
         // act
-        var res = usecases.signInUser(incorrect_data);
+        var res = await usecases.signInUser(incorrect_data);
         
         // assert
         Assert.False(res.Success);
@@ -70,14 +70,14 @@ public class UserUsecasesTests
     }
 
     [Fact]
-    public void signInUserCorrectLoginDataTest_Ok()
+    public async void signInUserCorrectLoginDataTest_Ok()
     {
         // arrange
         var incorrect_data = new loginData("user", "incorrect password");
-        repository.Setup(rep=>rep.checkAccount(incorrect_data)).Returns(true);
+        repository.Setup(rep=>rep.checkAccount(incorrect_data)).ReturnsAsync(true);
         
         // act
-        var res = usecases.signInUser(incorrect_data);
+        var res = await usecases.signInUser(incorrect_data);
         
         // assert
         Assert.True(res.Success);
@@ -85,13 +85,13 @@ public class UserUsecasesTests
     }
 
     [Fact]
-    public void signInUserEmptyFielsTest_Fail()
+    public async void signInUserEmptyFielsTest_Fail()
     {
         // arrange
         var empty_user = createUser("");
         
         // act
-        var res = usecases.signUpUser(empty_user);
+        var res = await usecases.signUpUser(empty_user);
         
         // assert
         Assert.False(res.Success);
@@ -99,14 +99,14 @@ public class UserUsecasesTests
     }
 
      [Fact]
-    public void signInLoginAlreadyTakenTest_Fail()
+    public async void signInLoginAlreadyTakenTest_Fail()
     {
         // arrange
         var empty_user = createUser("abcabc");
-        repository.Setup(rep => rep.isLoginExist(empty_user.login)).Returns(true);
+        repository.Setup(rep => rep.isLoginExist(empty_user.login)).ReturnsAsync(true);
         
         // act
-        var res = usecases.signUpUser(empty_user);
+        var res = await usecases.signUpUser(empty_user);
         
         // assert
         Assert.False(res.Success);
@@ -114,14 +114,14 @@ public class UserUsecasesTests
     }
 
     [Fact]
-    public void signInOkDataTest_Ok()
+    public async void signInOkDataTest_Ok()
     {
         // arrange
         var empty_user = createUser("abcabc");
-        repository.Setup(rep => rep.isLoginExist(empty_user.login)).Returns(false);
+        repository.Setup(rep => rep.isLoginExist(empty_user.login)).ReturnsAsync(false);
         
         // act
-        var res = usecases.signUpUser(empty_user);
+        var res = await usecases.signUpUser(empty_user);
         
         // assert
         Assert.True(res.Success);

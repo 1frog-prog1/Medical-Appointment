@@ -7,9 +7,9 @@ namespace domain.models.sheldue
         // а все между - свободно. не лучше ли дать врачу об этом знать
         // чтоб он мог спокойно уйти.. куда там обычно врачи уходят подолгу
 
-         public Sheldue getDoctorSheldue(int doctor_id); 
+         public Task<Sheldue> getDoctorSheldue(int doctor_id); 
 
-         public Sheldue getSheldueById(int sheldue_id);
+         public Task<Sheldue> getSheldueById(int sheldue_id);
 
     }
 }

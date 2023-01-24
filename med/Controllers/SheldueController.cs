@@ -19,9 +19,9 @@ namespace med.Controllers
         }
 
         [HttpGet("getDoctorSheldue")]
-        public ActionResult<SheldueView> getDoctorSheldue(int doctor_id) {
+        public async Task<ActionResult<SheldueView>> getDoctorSheldue(int doctor_id) {
 
-            var res = _usecase.getDoctorSheldue(doctor_id);
+            var res = await _usecase.getDoctorSheldue(doctor_id);
 
             if (res.IsFailure)
                 return Problem(statusCode: 400, detail: res.Error);
