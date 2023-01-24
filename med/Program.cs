@@ -1,8 +1,23 @@
+using data;
+using data.repository;
+using domain.models.user;
+using domain.models.user.usecase;
+
+using Microsoft.EntityFrameworkCore;
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddDbContext<ApplicationContext>(options => 
+options.UseNpgsql($"Host=localhost;Port=5432;Database=MedAppointment;Username=evkima;Password=Qwerty132")
+);
 
+builder.Services.AddTransient<IUserRepository, UserRepository>();
+builder.Services.AddTransient<UserUsecases>();
+builder.Services.AddControllers();
+builder.Services.AddSwaggerGen();
+builder.Services.AddEndpointsApiExplorer();
 
 var app = builder.Build();
 
@@ -24,5 +39,11 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
 app.Run();

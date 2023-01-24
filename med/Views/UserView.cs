@@ -7,10 +7,15 @@ namespace med.Views
     {
         [JsonPropertyName("id")]
         public int Id {get; set;}
-        public string login;
-        public string password;
-        public string phone;
-        public string fio;
-        public Role role_id;
+        [JsonPropertyName("login")]
+        public string login {get; set;}
+        [JsonPropertyName("password")]
+        public string password {get; set;}
+        [JsonPropertyName("phone")]
+        public string phone {get;set;}
+        [JsonPropertyName("fio")]
+        public string fio{get;set;}
+        [JsonPropertyName("role_id")]
+        public Role role_id {get; set;}
     }
 }
